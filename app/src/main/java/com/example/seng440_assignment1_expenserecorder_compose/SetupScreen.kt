@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -20,12 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SetupScreen( name: String,navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
 
@@ -73,7 +75,8 @@ fun SetupScreen( name: String,navHostController: NavHostController,userViewModel
 
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            userDataState.setupDate
+            userViewModel.updateDate()
+            userViewModel.updateName(text)
             navHostController.navigate(Screen.MainScreen.route)},
             modifier = Modifier.align(Alignment.End)
         ){
@@ -86,15 +89,75 @@ fun SetupScreen( name: String,navHostController: NavHostController,userViewModel
 fun MainScreen(navHostController: NavHostController, userViewModel: UserViewModel = viewModel()) {
     val userDataState by userViewModel.uiState.collectAsState()
 
-    Box(
-        contentAlignment = Alignment.TopStart,
+    Column(
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 50.dp)
-    ) {
-        Text(text = "Hello ${userDataState.name}")
 
-//        Text(text = "Set up amount : ${userDataState.setupMoney}")
-//        Text(text = "Current amount : ${userDataState.setupMoney}")
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 50.dp, horizontal = 50.dp)
+    ) {
+        Box(
+            modifier = Modifier
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    ImageResourceDemo()
+                    Text(
+                        text = userDataState.name,
+                        fontSize = 30.sp,
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
+                }
+
+
+                Text(
+                    text = "Email: ${userDataState.email}", fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+                Text(
+                    text = "Phone: ${userDataState.phone}", fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+                Text(
+                    text = "Set up amount: $ ${userDataState.setupMoney}", fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+                Text(
+                    text = "Set up date: ${userDataState.setupDate}", fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                Button(
+                    onClick = {
+                        navHostController.navigate(Screen.HomeScreen.route)
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text(text = "Add new expense")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        navHostController.navigate(Screen.HomeScreen.route)
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text(text = "Look up Detail")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
     }
+
 }
+
+
+

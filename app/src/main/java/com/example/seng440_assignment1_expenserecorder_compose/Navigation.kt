@@ -12,7 +12,7 @@ import androidx.navigation.navArgument
 @Composable
 fun Navigation(userViewModel: UserViewModel = viewModel())  {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "HomeScreen") {
+    NavHost(navController = navController, startDestination = "MainScreen") {
         composable(route = Screen.HomeScreen.route) { HomeScreen(navHostController = navController,userViewModel) }
         composable(route = Screen.SetupScreen.route + "/{name}",
             arguments = listOf(navArgument("name") {

@@ -1,5 +1,18 @@
 package com.example.seng440_assignment1_expenserecorder_compose
 
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +37,7 @@ class Product(val name: String,
     }
 }
 
-data class User(val name: String, var email:String, var phone:String, var setupMoney: Int, val setupDate: Date) {
+data class User(val name: String, var email:String, var phone:String, var setupMoney: Int, var setupDate: String) {
     override fun toString() : String {
         return ("User name:" + name +"\n" +
                 "User email" + email +"\n" +
@@ -34,7 +47,9 @@ data class User(val name: String, var email:String, var phone:String, var setupM
 }
 
 class UserViewModel: ViewModel() {
-    private val _uiState = MutableStateFlow(User("User","123@email.com", "123456789",200, Date()))
+    val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
+    val today = Calendar.getInstance()
+    private val _uiState = MutableStateFlow(User("User","123@email.com", "123456789",200, formatter.format(today)))
     val uiState: StateFlow<User> = _uiState.asStateFlow()
 
     fun updateName(newname:String) {
@@ -46,10 +61,22 @@ class UserViewModel: ViewModel() {
     fun updatePhone(newPhone:String) {
         _uiState.update { currentState -> currentState.copy(phone = newPhone) }
     }
-    fun updateDate(newPhone:String) {
-        _uiState.update { currentState -> currentState.copy(setupDate = Date()) }
+    fun updateDate() {
+        val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
+        val today = Calendar.getInstance()
+        _uiState.update { currentState -> currentState.copy(setupDate =formatter.format(today)) }
     }
     fun updateSetupMoney(money:Int) {
         _uiState.update { currentState -> currentState.copy(setupMoney = money) }
     }
+
 }
+@Composable
+fun ImageResourceDemo() {
+    val image: Painter = painterResource(id = R.drawable.img)
+    Image(painter = image,contentDescription = "",modifier = Modifier
+        .size(120.dp)
+        .clip(CircleShape)
+        .border(2.dp, Color.Gray, shape = CircleShape))
+}
+
