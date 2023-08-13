@@ -18,14 +18,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.time.LocalDate
-import java.util.Date
 
 
-class Product(val name: String,
-           val type: ProductType,
-           val cost: Int,
-           val date: Date
+class Product(
+    val name: String,
+    val type: ProductType,
+    val cost: Int,
+    val date: String
 ) {
     override fun toString() : String {
         val type:ProductType = this.type

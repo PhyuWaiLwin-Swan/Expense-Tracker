@@ -1,5 +1,7 @@
 package com.example.seng440_assignment1_expenserecorder_compose
 
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -27,6 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 @Composable
 fun SetupScreen( name: String,navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
@@ -158,6 +163,34 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
     }
 
 }
+
+@Composable
+fun AddNew(navHostController: NavHostController,userViewModel: UserViewModel= viewModel()) {
+    val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
+    val today = Calendar.getInstance()
+
+    val _uiState = remember { mutableStateOf(Product("", ProductType.Food, 0, formatter.format(today))) }
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 50.dp)
+    ) {
+        TextField(
+            value = _uiState.value.name,
+            onValueChange = { newText -> _uiState.value = _uiState.value.copy(name = newText) },
+            label = { Text("Product Name:") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        TextField(
+            value = _uiState.value.cost.toString(),
+            onValueChange = { newText -> _uiState.value = _uiState.value.copy(cost = newText.toInt()) },
+            label = { Text("Item name:") },
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
 
 
 

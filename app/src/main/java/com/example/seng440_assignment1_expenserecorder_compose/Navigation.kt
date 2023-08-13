@@ -24,6 +24,7 @@ fun Navigation(userViewModel: UserViewModel = viewModel())  {
         ) { entry -> val name = entry.arguments?.getString("name")
             SetupScreen(name= name?: "swan",navHostController = navController,userViewModel) }
         composable(route = Screen.MainScreen.route) { MainScreen(navHostController = navController,userViewModel) }
+        composable(route = Screen.AddNew.route) { HomeScreen(navHostController = navController,userViewModel) }
         /*...*/
     }
 }
