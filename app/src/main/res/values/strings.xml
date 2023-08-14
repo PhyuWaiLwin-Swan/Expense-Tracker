@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Seng440_assignment1_ExpenseRecorder_compose</string>
+    <string name="app_name">Expense Recorder</string>
     <string name="product_name">Product Name:</string>
     <string name="your_email">Your email:</string>
     <string name="your_name">Your name:</string>

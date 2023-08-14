@@ -1,5 +1,6 @@
 package com.example.seng440_assignment1_expenserecorder_compose
 
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import androidx.compose.foundation.Image
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -125,5 +127,23 @@ fun ImageResourceDemo(gender: String) {
         .size(120.dp)
         .clip(CircleShape)
         .border(2.dp, Color.Gray, shape = CircleShape))
+}
+
+@Composable
+fun ShareData() {
+//    val share = Intent.createChooser(Intent().apply {
+//        action = Intent.ACTION_SEND
+//        putExtra(Intent.EXTRA_TEXT, "https://developer.android.com/training/sharing/")
+//
+//        // (Optional) Here you're setting the title of the content
+//        putExtra(Intent.EXTRA_TITLE, "Introducing content previews")
+//
+//        // (Optional) Here you're passing a content URI to an image to be displayed
+//
+//        data = https://app.slack.com/client/T04L0FVEQ83/C04L0FVF1D1
+//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//    }, null)
+//    startActivity(share)
+
 }
 

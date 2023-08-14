@@ -1,24 +1,24 @@
 package com.example.seng440_assignment1_expenserecorder_compose
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
+import android.content.Intent
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,35 +29,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.RadioButton
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
+import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.Purple40
+import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.Purple80
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 @Composable
 fun SetupScreen( name: String,navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
@@ -359,21 +342,42 @@ private fun mToast(context: Context, string: String){
 
 @Composable
 fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewModel = viewModel()) {
+
+    val user by userViewModel.uiState.collectAsState()
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(50.dp)
-            .background(color = Color(0xFFD1C4E9))
-            .clip(RoundedCornerShape(30.dp)),
+            .background(color = Purple80)
+            .clip(RoundedCornerShape(16.dp)),
 
         ) {
         Column(modifier= Modifier.fillMaxWidth()) {
 
             Box(modifier = Modifier
                     .fillMaxWidth()
-                    .padding(2.dp)
                 ) {
-                Text(text = "Expense List:", fontSize = 30.sp)
+                Text(text = "Expense List:", fontSize = 30.sp, modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterStart))
+                Button(modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterEnd),onClick = {
+                    var string: String = ""
+                    for (i in user.productList.toList()){
+                        string += i.toString() + "\n"+" "+"\n"
+                    }
+                    val intent= Intent(Intent.ACTION_SEND).apply {
+                    type="text/plain"
+                    putExtra(Intent.EXTRA_EMAIL, arrayListOf("swanpwl01@gmail.com"))
+                    putExtra(Intent.EXTRA_SUBJECT, "Records from expense tracker")
+                    putExtra(Intent.EXTRA_TEXT, "This is the text part of the mail")
+                }
+
+                    if(intent.resolveActivity(context.packageManager)!=null){
+                        startActivity( context,intent,null)
+                    }
+
+                }) {
+                    Text(text= "Share")
+                }
             }
             val user by userViewModel.uiState.collectAsState()
             val products = user.productList.toList()
@@ -400,7 +404,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                             ImageResourceDemo(selectedProduct.type.toString())
                             Text(text = stringResource(R.string.product_name) + selectedProduct.name)
                             Text(text = stringResource(R.string.item_cost) + selectedProduct.cost)
-                            Text(text = "Item type" + selectedProduct.type)
+                            Text(text = "Item type: " + selectedProduct.type)
                         }
                     },
                     confirmButton = {
@@ -424,9 +428,9 @@ fun ProductList(products: List<Product>, onProductClick: (Product) -> Unit) {
         items(products) { product ->
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(30.dp))
+                .clip(RoundedCornerShape(16.dp))
                 .padding(4.dp)
-                .background(color = Color(0xFFE1BEE7))
+                .background(color = Purple40)
                 .clickable {
                     onProductClick(product)
                 },) {
