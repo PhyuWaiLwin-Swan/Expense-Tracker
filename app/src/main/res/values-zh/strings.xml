@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Seng440_assignment1_ExpenseRecorder_compose</string>
-    <string name="product_name">Product Name:</string>
+    <string name="product_name">产品名称</string>
     <string name="your_email">你的邮件：</string>
-    <string name="your_name">Your name:</string>
-    <string name="set_up_date">"Set up date: "</string>
-    <string name="add_new_expense">Add new expense</string>
-    <string name="welcome_to_the_expanse_recorder">Welcome to the expanse recorder.</string>
-    <string name="to_set_up_screen">To Set up screen</string>
-    <string name="set_up_budget_dollar">Set up budget (dollar):</string>
-    <string name="setup_user_detail">Setup User Detail</string>
-    <string name="email">"Email: "</string>
-    <string name="phone">"Phone: "</string>
-    <string name="set_up_amount">"Set up amount: $ "</string>
-    <string name="look_up_detail">Look up Detail</string>
-    <string name="your_phone">Your phone:</string>
+    <string name="your_name">你的名字：</string>
+    <string name="set_up_date">设定日期：</string>
+    <string name="add_new_expense">添加新费用</string>
+    <string name="welcome_to_the_expanse_recorder">欢迎使用费用记录器</string>
+    <string name="to_set_up_screen">前往设置屏幕</string>
+    <string name="set_up_budget_dollar">设定预算（美元）：</string>
+    <string name="setup_user_detail">设置用户详细信息</string>
+    <string name="email">邮件: </string>
+    <string name="phone">电话: </string>
+    <string name="set_up_amount">设置金额: $ </string>
+    <string name="look_up_detail">查找详情</string>
+    <string name="your_phone">你的电话:</string>
 </resources>
