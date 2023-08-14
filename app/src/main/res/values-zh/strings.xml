@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Seng440_assignment1_ExpenseRecorder_compose</string>
     <string name="product_name">Product Name:</string>
-    <string name="your_email">Your email:</string>
+    <string name="your_email">你的邮件：</string>
     <string name="your_name">Your name:</string>
+    <string name="set_up_date">"Set up date: "</string>
+    <string name="add_new_expense">Add new expense</string>
     <string name="welcome_to_the_expanse_recorder">Welcome to the expanse recorder.</string>
     <string name="to_set_up_screen">To Set up screen</string>
     <string name="set_up_budget_dollar">Set up budget (dollar):</string>
@@ -10,8 +13,6 @@
     <string name="email">"Email: "</string>
     <string name="phone">"Phone: "</string>
     <string name="set_up_amount">"Set up amount: $ "</string>
-    <string name="set_up_date">"Set up date: "</string>
-    <string name="add_new_expense">Add new expense</string>
     <string name="look_up_detail">Look up Detail</string>
     <string name="your_phone">Your phone:</string>
 </resources>

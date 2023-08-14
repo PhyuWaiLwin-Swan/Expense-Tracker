@@ -2,6 +2,7 @@ package com.example.seng440_assignment1_expenserecorder_compose
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,10 +25,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.RadioButton
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+
+import androidx.compose.ui.platform.LocalContext
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,17 +59,19 @@ fun SetupScreen( name: String,navHostController: NavHostController,userViewModel
         modifier= Modifier
             .fillMaxSize()
             .padding(horizontal = 50.dp)) {
+        var gender = SimpleRadioButtonComponent()
+
         TextField(
             value = userDataState.email,
             onValueChange = { newText -> userViewModel.updateEmail(newText) },
-            label = { Text("Your email:") },
+            label = { Text(stringResource(R.string.your_email)) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = userDataState.phone,
             onValueChange = { newText -> userViewModel.updatePhone(newText)},
-            label = { Text("Your phone:") },
+            label = { Text(stringResource(R.string.your_phone)) },
             isError = !userDataState.phone.toString().matches(Regex("^[0-9]*$")),
             modifier = Modifier.fillMaxWidth()
         )
@@ -73,7 +83,7 @@ fun SetupScreen( name: String,navHostController: NavHostController,userViewModel
                 if(newText.matches(pattern)){
                     val newSetupMoney = newText.toIntOrNull() ?: 0
                     userViewModel.updateSetupMoney(newSetupMoney)}},
-            label = { Text("Set up budget (dollar):") },
+            label = { Text(stringResource(R.string.set_up_budget_dollar)) },
             isError = !userDataState.setupMoney.toString().matches(Regex("^[0-9]*$")),
             modifier = Modifier.fillMaxWidth()
         )
@@ -82,10 +92,11 @@ fun SetupScreen( name: String,navHostController: NavHostController,userViewModel
         Button(onClick = {
             userViewModel.updateDate()
             userViewModel.updateName(text)
+            userViewModel.updateGender(gender)
             navHostController.navigate(Screen.MainScreen.route)},
             modifier = Modifier.align(Alignment.End)
         ){
-            Text(text= "Setup User Detail")
+            Text(text= stringResource(R.string.setup_user_detail))
         }
     }
 }
@@ -114,7 +125,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    ImageResourceDemo()
+                    ImageResourceDemo(userDataState.gender)
                     Text(
                         text = userDataState.name,
                         fontSize = 30.sp,
@@ -124,19 +135,19 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
 
 
                 Text(
-                    text = "Email: ${userDataState.email}", fontSize = 20.sp,
+                    text = stringResource(R.string.email) + userDataState.email, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Text(
-                    text = "Phone: ${userDataState.phone}", fontSize = 20.sp,
+                    text = stringResource(R.string.phone) + userDataState.phone, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Text(
-                    text = "Set up amount: $ ${userDataState.setupMoney}", fontSize = 20.sp,
+                    text = stringResource(R.string.set_up_amount) + userDataState.setupMoney, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Text(
-                    text = "Set up date: ${userDataState.setupDate}", fontSize = 20.sp,
+                    text = stringResource(R.string.set_up_date) + userDataState.setupDate, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -146,7 +157,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
-                    Text(text = "Add new expense")
+                    Text(text = stringResource(R.string.add_new_expense))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
@@ -155,7 +166,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
-                    Text(text = "Look up Detail")
+                    Text(text = stringResource(R.string.look_up_detail))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -176,21 +187,54 @@ fun AddNew(navHostController: NavHostController,userViewModel: UserViewModel= vi
             .fillMaxSize()
             .padding(horizontal = 50.dp)
     ) {
-        TextField(
-            value = _uiState.value.name,
-            onValueChange = { newText -> _uiState.value = _uiState.value.copy(name = newText) },
-            label = { Text("Product Name:") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        TextField(
-            value = _uiState.value.cost.toString(),
-            onValueChange = { newText -> _uiState.value = _uiState.value.copy(cost = newText.toInt()) },
-            label = { Text("Item name:") },
-            modifier = Modifier.fillMaxWidth()
-        )
+//        TextField(
+//            value = _uiState.value.name,
+//            onValueChange = { newText -> _uiState.value = _uiState.value.copy(name = newText) },
+//            label = { Text(stringResource(R.string.product_name)) },
+//            modifier = Modifier.fillMaxWidth()
+//        )
+//        TextField(
+//            value = _uiState.value.cost.toString(),
+//            onValueChange = { newText -> _uiState.value = _uiState.value.copy(cost = newText.toInt()) },
+//            label = { Text("Item name:") },
+//            modifier = Modifier.fillMaxWidth()
+//        )
     }
 }
+@Composable
+fun SimpleRadioButtonComponent(): String {
+    val radioOptions = listOf("Male", "Female")
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
 
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Column {
+            radioOptions.forEach { text ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { onOptionSelected(text) } // Use clickable instead of selectable
+                        .padding(horizontal = 8.dp)
+                ) {
+                    RadioButton(
+                        selected = (text == selectedOption),
+                        onClick = { onOptionSelected(text) }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp)) // Add a space between RadioButton and Text
+                    Text(
+                        text = text,
+                        modifier = Modifier.align(Alignment.CenterVertically) // Align Text to the center vertically
+                    )
+                }
+            }
+        }
+    }
+
+    return selectedOption
+}
 
 
 

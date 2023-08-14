@@ -36,7 +36,8 @@ class Product(
     }
 }
 
-data class User(val name: String, var email:String, var phone:String, var setupMoney: Int, var setupDate: String) {
+data class User(val name: String, var email:String, var phone:String,
+                var setupMoney: Int, var setupDate: String, var gender: String) {
     override fun toString() : String {
         return ("User name:" + name +"\n" +
                 "User email" + email +"\n" +
@@ -48,7 +49,7 @@ data class User(val name: String, var email:String, var phone:String, var setupM
 class UserViewModel: ViewModel() {
     val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
     val today = Calendar.getInstance()
-    private val _uiState = MutableStateFlow(User("User","123@email.com", "123456789",200, formatter.format(today)))
+    private val _uiState = MutableStateFlow(User("User","123@email.com", "123456789",200, formatter.format(today),"Male"))
     val uiState: StateFlow<User> = _uiState.asStateFlow()
 
     fun updateName(newname:String) {
@@ -69,10 +70,19 @@ class UserViewModel: ViewModel() {
         _uiState.update { currentState -> currentState.copy(setupMoney = money) }
     }
 
+    fun updateGender(gender:String) {
+        _uiState.update { currentState -> currentState.copy(gender = gender) }
+    }
+
 }
 @Composable
-fun ImageResourceDemo() {
-    val image: Painter = painterResource(id = R.drawable.img)
+fun ImageResourceDemo(gender: String) {
+
+    var selected = mapOf(
+          "Male" to R.drawable.img ,
+         "Female" to R.drawable.img_1
+    )
+    val image: Painter = painterResource(id = selected[gender]!!)
     Image(painter = image,contentDescription = "",modifier = Modifier
         .size(120.dp)
         .clip(CircleShape)

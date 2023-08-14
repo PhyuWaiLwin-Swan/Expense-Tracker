@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -30,17 +31,16 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
     var text by remember{
         mutableStateOf("")
     }
-    val HomeScreenText = "Welcome to the expanse recorder."
 
     Column(verticalArrangement = Arrangement.Center,
     modifier= Modifier
         .fillMaxSize()
         .padding(horizontal = 50.dp)) {
-        Text(text=HomeScreenText, modifier = Modifier.fillMaxWidth().padding(10.dp), fontSize = 20.sp)
+        Text(text= stringResource(R.string.welcome_to_the_expanse_recorder), modifier = Modifier.fillMaxWidth().padding(10.dp), fontSize = 20.sp)
         TextField(
             value = text,
             onValueChange = { newText -> text = newText },
-            label = { Text("Your name:") },
+            label = { Text(stringResource(R.string.your_name)) },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -48,7 +48,7 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
             navHostController.navigate(Screen.SetupScreen.withArgs(text))},
             modifier = Modifier.align(Alignment.End)
         ){
-            Text(text= "To Set up screen")
+            Text(text= stringResource(R.string.to_set_up_screen))
         }
     }
 
