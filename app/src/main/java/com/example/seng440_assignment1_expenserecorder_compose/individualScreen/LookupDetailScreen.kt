@@ -43,6 +43,10 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
 
     val user by userViewModel.uiState.collectAsState()
     val context = LocalContext.current
+    var string = ""
+    for (i in user.productList.toList()){
+        string += i.toString() + "\n"+" "+"\n"
+    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,15 +63,12 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                 Text(text = "Expense List:", fontSize = 30.sp, modifier = Modifier.padding(top = 8.dp).align(
                     Alignment.CenterStart))
                 Button(modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterEnd),onClick = {
-                    var string: String = ""
-                    for (i in user.productList.toList()){
-                        string += i.toString() + "\n"+" "+"\n"
-                    }
+
                     val intent= Intent(Intent.ACTION_SEND).apply {
                         type="text/plain"
-                        putExtra(Intent.EXTRA_EMAIL, arrayListOf("swanpwl01@gmail.com"))
+                        putExtra(Intent.EXTRA_EMAIL, arrayListOf("aungminoo83@gmail.com"))
                         putExtra(Intent.EXTRA_SUBJECT, "Records from expense tracker")
-                        putExtra(Intent.EXTRA_TEXT, "This is the text part of the mail")
+                        putExtra(Intent.EXTRA_TEXT, string)
                     }
 
                     if(intent.resolveActivity(context.packageManager)!=null){

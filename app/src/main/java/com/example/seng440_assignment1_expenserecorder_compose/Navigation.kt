@@ -19,7 +19,7 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserVie
 @Composable
 fun Navigation(userViewModel: UserViewModel = viewModel())  {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "AddNew") {
+    NavHost(navController = navController, startDestination = "HomeScreen") {
         composable(route = Screen.HomeScreen.route) { HomeScreen(navHostController = navController,userViewModel) }
         composable(route = Screen.SetupScreen.route + "/{name}",
             arguments = listOf(navArgument("name") {
