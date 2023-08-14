@@ -12,7 +12,7 @@ import androidx.navigation.navArgument
 @Composable
 fun Navigation(userViewModel: UserViewModel = viewModel())  {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "MainScreen") {
+    NavHost(navController = navController, startDestination = "AddNew") {
         composable(route = Screen.HomeScreen.route) { HomeScreen(navHostController = navController,userViewModel) }
         composable(route = Screen.SetupScreen.route + "/{name}",
             arguments = listOf(navArgument("name") {
@@ -24,7 +24,8 @@ fun Navigation(userViewModel: UserViewModel = viewModel())  {
         ) { entry -> val name = entry.arguments?.getString("name")
             SetupScreen(name= name?: "swan",navHostController = navController,userViewModel) }
         composable(route = Screen.MainScreen.route) { MainScreen(navHostController = navController,userViewModel) }
-        composable(route = Screen.AddNew.route) { HomeScreen(navHostController = navController,userViewModel) }
+        composable(route = Screen.AddNew.route) { AddNew(navHostController = navController,userViewModel) }
+        composable(route = Screen.LookupDetail.route) { LookupDetail(navHostController = navController,userViewModel) }
         /*...*/
     }
 }

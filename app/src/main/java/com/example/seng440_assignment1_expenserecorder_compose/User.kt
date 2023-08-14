@@ -7,6 +7,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -20,11 +23,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 
-class Product(
-    val name: String,
-    val type: ProductType,
-    val cost: Int,
-    val date: String
+data class Product(
+    var name: String,
+    var type: ProductType,
+    var cost: Int,
+    var date: String
 ) {
     override fun toString() : String {
         val type:ProductType = this.type
@@ -37,12 +40,33 @@ class Product(
 }
 
 data class User(val name: String, var email:String, var phone:String,
-                var setupMoney: Int, var setupDate: String, var gender: String) {
+                var setupMoney: Int, var setupDate: String, var gender: String, val productList: MutableList<Product> = mutableListOf() ) {
     override fun toString() : String {
         return ("User name:" + name +"\n" +
                 "User email" + email +"\n" +
                 "Phone number: " + phone
                 )
+    }
+}
+
+class ProductViewModel: ViewModel(){
+    val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
+    val today = Calendar.getInstance()
+    val _uiState = MutableStateFlow(Product("", ProductType.Food, 0, formatter.format(today)))
+    val uiState: StateFlow<Product> = _uiState.asStateFlow()
+    fun updateName(newname:String) {
+        _uiState.update { currentState -> currentState.copy(name = newname) }
+    }
+    fun updateCost(newCost:Int) {
+        _uiState.update { currentState -> currentState.copy(cost = newCost) }
+    }
+    fun updateType(newType:String) {
+        _uiState.update { currentState -> currentState.copy(type = ProductType.valueOf(newType)) }
+    }
+    fun updateDate() {
+        val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
+        val today = Calendar.getInstance()
+        _uiState.update { currentState -> currentState.copy(date =formatter.format(today)) }
     }
 }
 
@@ -74,13 +98,27 @@ class UserViewModel: ViewModel() {
         _uiState.update { currentState -> currentState.copy(gender = gender) }
     }
 
+    fun updateProduct( product: Product) {
+        _uiState.update { currentState ->
+            val products = currentState.productList + product
+            currentState.copy(productList = products as MutableList<Product>)
+        }
+    }
 }
+
 @Composable
 fun ImageResourceDemo(gender: String) {
 
     var selected = mapOf(
           "Male" to R.drawable.img ,
-         "Female" to R.drawable.img_1
+         "Female" to R.drawable.img_1,
+        "Housing" to R.drawable.housing,
+        "Food" to R.drawable.food,
+        "Transport" to R.drawable.transport,
+        "Utilities" to R.drawable.utilities,
+        "HealthCare" to R.drawable.healthcare,
+        "Insurance" to R.drawable.insurance,
+        "Education" to R.drawable.education
     )
     val image: Painter = painterResource(id = selected[gender]!!)
     Image(painter = image,contentDescription = "",modifier = Modifier

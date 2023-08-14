@@ -15,4 +15,5 @@
     <string name="set_up_amount">设置金额: $ </string>
     <string name="look_up_detail">查找详情</string>
     <string name="your_phone">你的电话:</string>
+    <string name="add">Add</string>
 </resources>
