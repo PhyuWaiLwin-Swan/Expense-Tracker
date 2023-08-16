@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -60,9 +63,14 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
             Box(modifier = Modifier
                 .fillMaxWidth()
             ) {
-                Text(text = "Expense List:", fontSize = 30.sp, modifier = Modifier.padding(top = 8.dp).align(
-                    Alignment.CenterStart))
-                Button(modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterEnd),onClick = {
+                Text(text = "Expense List:", fontSize = 30.sp, modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(
+                        Alignment.CenterStart
+                    ))
+                Button(modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterEnd),onClick = {
                     generateSound()
                     val intent= Intent(Intent.ACTION_SEND).apply {
                         type="text/plain"
@@ -129,8 +137,41 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
 }
 @Composable
 fun ProductList(products: List<Product>, onProductClick: (Product) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
     LazyColumn {
         items(products) { product ->
+
+
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(2.dp)
+//            ) {
+//                ImageResourceDemo(gender = product.type.toString())
+//                Text(
+//                    modifier = Modifier
+//                        .align(Alignment.CenterStart)
+//                        .padding(all = 2.dp),
+//                    style = MaterialTheme.typography.bodyLarge,
+//                    fontSize = 25.sp,
+//                    text = product.name
+//                )
+//                Text(
+//                    modifier = Modifier
+//                        .align(Alignment.CenterEnd)
+//                        .padding(all = 2.dp),
+//                    style = MaterialTheme.typography.bodyLarge,
+//                    fontSize = 25.sp,
+//                    text = "$" + product.cost.toString()
+//                )
+//                Spacer(modifier = Modifier.weight(1f))
+//                ItemButton(
+//                    expanded = expanded,
+//                    onClick = { /*TODO*/ }
+//                )
+//            }
+
+
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
