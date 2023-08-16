@@ -60,7 +60,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                 }
 
                 Text(
-                    text = "Name: " + userDataState.name, fontSize = 20.sp,
+                    text = stringResource(R.string.name) + userDataState.name, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Text(
@@ -80,7 +80,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     modifier = Modifier.padding(top = 10.dp)
                 )
                 Text(
-                    text = "Current balance: " + userViewModel.getCurrentBalance(), fontSize = 20.sp,
+                    text = stringResource(R.string.current_balance) + userViewModel.getCurrentBalance(), fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
 

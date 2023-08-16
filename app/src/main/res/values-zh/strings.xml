@@ -15,5 +15,11 @@
     <string name="set_up_amount">设置金额: $ </string>
     <string name="look_up_detail">查找详情</string>
     <string name="your_phone">你的电话:</string>
-    <string name="add">Add</string>
+    <string name="add">添加</string>
+    <string name="name">姓名： </string>
+    <string name="current_balance">当前余额：</string>
+    <string name="male">男性</string>
+    <string name="female">女性</string>
+    <string name="expense_tracker">费用记录仪</string>
+    <string name="item_cost">物品成本：</string>
 </resources>

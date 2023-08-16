@@ -89,7 +89,7 @@ fun AddNew(navHostController: NavHostController, userViewModel: UserViewModel = 
                             product.updateCost(newSetupMoney)
                         }
                     },
-                    label = { Text("Item cost:") },
+                    label = { Text(stringResource(id = R.string.item_cost)) },
                     isError = !productDetail.cost.toString().matches(Regex("^[0-9]*$")),
                     modifier = Modifier
                         .fillMaxWidth()

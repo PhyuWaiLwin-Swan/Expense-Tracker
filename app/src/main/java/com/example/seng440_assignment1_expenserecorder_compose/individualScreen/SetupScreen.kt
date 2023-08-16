@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.seng440_assignment1_expenserecorder_compose.R
@@ -45,7 +46,9 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
             .padding(horizontal = 50.dp)) {
 
 
+        Text(text= stringResource(id = R.string.name) + userDataState.name, fontSize = 35.sp, modifier = Modifier.padding(10.dp))
         var gender = SimpleRadioButtonComponent()
+
 
         TextField(
             value = userDataState.email,
@@ -105,7 +108,7 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
 
 @Composable
 fun SimpleRadioButtonComponent(): String {
-    val radioOptions = listOf("Male", "Female")
+    val radioOptions = listOf(stringResource(R.string.male), stringResource(R.string.female))
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[1]) }
 
     Column(

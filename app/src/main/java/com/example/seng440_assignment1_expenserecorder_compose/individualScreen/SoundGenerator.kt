@@ -5,7 +5,7 @@ import android.media.ToneGenerator
 import androidx.compose.runtime.Composable
 
 fun generateSound() {
-    val time = 200
+    val time = 10
     val toner = ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME)
-    toner.startTone(ToneGenerator.TONE_CDMA_ABBR_REORDER, time)
+    toner.startTone(ToneGenerator.TONE_DTMF_8, time)
 }

@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     TopAppBar(
                         title = {
                             Text(
-                                text = "Expense Tracker",
+                                text = getString(R.string.expense_tracker),
                                 color = Purple40 // Set the text color here
                             )
                         } // Set the TopAppBar background color here

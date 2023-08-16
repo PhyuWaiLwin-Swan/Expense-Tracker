@@ -74,7 +74,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                     generateSound()
                     val intent= Intent(Intent.ACTION_SEND).apply {
                         type="text/plain"
-                        putExtra(Intent.EXTRA_EMAIL, arrayListOf("aungminoo83@gmail.com"))
+                        putExtra(Intent.EXTRA_EMAIL, arrayListOf(user.email))
                         putExtra(Intent.EXTRA_SUBJECT, "Records from expense tracker")
                         putExtra(Intent.EXTRA_TEXT, string)
                     }

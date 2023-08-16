@@ -16,4 +16,9 @@
     <string name="your_phone">Your phone:</string>
     <string name="add">Add</string>
     <string name="item_cost">Item cost:</string>
+    <string name="name">"Name: "</string>
+    <string name="current_balance">"Current balance: "</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="expense_tracker">Expense Tracker</string>
 </resources>
