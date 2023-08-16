@@ -50,12 +50,12 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(50.dp)
+            .padding(20.dp)
             .background(color = Purple80)
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(35.dp)),
 
         ) {
-        Column(modifier= Modifier.fillMaxWidth()) {
+        Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp)) {
 
             Box(modifier = Modifier
                 .fillMaxWidth()
@@ -63,7 +63,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                 Text(text = "Expense List:", fontSize = 30.sp, modifier = Modifier.padding(top = 8.dp).align(
                     Alignment.CenterStart))
                 Button(modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterEnd),onClick = {
-
+                    generateSound()
                     val intent= Intent(Intent.ACTION_SEND).apply {
                         type="text/plain"
                         putExtra(Intent.EXTRA_EMAIL, arrayListOf("aungminoo83@gmail.com"))
@@ -82,40 +82,47 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
             val user by userViewModel.uiState.collectAsState()
             val products = user.productList.toList()
             var openDialog by remember { mutableStateOf(false) }
-            var selectedProduct by remember { mutableStateOf(products[0]) }
-            ProductList(products, onProductClick = { friend ->
-                //Toast.makeText(this, friend.name, Toast.LENGTH_LONG).show()
-                selectedProduct = friend
-                openDialog = true
-            })
 
-            if (openDialog) {
-                AlertDialog(
-                    onDismissRequest = { openDialog = false },
-                    title = {
-                        Text(
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold,
-                            text = "Expense Detail"
-                        )
-                    },
-                    text = {
-                        Column(modifier = Modifier.fillMaxWidth()) {
-                            ImageResourceDemo(selectedProduct.type.toString())
-                            Text(text = stringResource(R.string.product_name) + selectedProduct.name)
-                            Text(text = stringResource(R.string.item_cost) + selectedProduct.cost)
-                            Text(text = "Item type: " + selectedProduct.type)
+            if(! products.isEmpty()) {
+                var selectedProduct by remember { mutableStateOf(products[0]) }
+                ProductList(products, onProductClick = { friend ->
+                    selectedProduct = friend
+                    openDialog = true
+                })
+
+
+                if (openDialog) {
+                    AlertDialog(
+                        onDismissRequest = { openDialog = false },
+                        title = {
+                            Text(
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                                text = "Expense Detail"
+                            )
+                        },
+                        text = {
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                ImageResourceDemo(selectedProduct.type.toString())
+                                Text(text = stringResource(R.string.product_name) + selectedProduct.name)
+                                Text(text = stringResource(R.string.item_cost) + selectedProduct.cost)
+                                Text(text = "Item type: " + selectedProduct.type)
+                            }
+                        },
+                        confirmButton = {
+                            // Define your custom button using the Button composable
+
+                        },
+                        dismissButton = {
+                            // You can define a dismiss button here if needed
+
                         }
-                    },
-                    confirmButton = {
-                        // Define your custom button using the Button composable
+                    )
+                }
+            }
 
-                    },
-                    dismissButton = {
-                        // You can define a dismiss button here if needed
-
-                    }
-                )
+            else {
+                Text("No saved expense", fontSize = 20.sp)
             }
         }
     }

@@ -100,9 +100,14 @@ fun AddNew(navHostController: NavHostController, userViewModel: UserViewModel = 
 
                 Button(
                     onClick = {
-                        userViewModel.updateProduct(product = product._uiState.value)
-                        mToast(mContext, "Successfully Added")
-                        navHostController.navigate(Screen.MainScreen.route)
+                        if (productDetail.name == "" || productDetail.cost == 0) {
+                            mToast(mContext, "Please input Product name and cost")
+                        } else {
+                            generateSound()
+                            userViewModel.updateProduct(product = product._uiState.value)
+                            mToast(mContext, "Successfully Added")
+                            navHostController.navigate(Screen.MainScreen.route)
+                        }
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
@@ -112,7 +117,7 @@ fun AddNew(navHostController: NavHostController, userViewModel: UserViewModel = 
         }
     }
 }
-private fun mToast(context: Context, string: String){
+fun mToast(context: Context, string: String){
     Toast.makeText(context, string, Toast.LENGTH_LONG).show()
 }
 @OptIn(ExperimentalMaterial3Api::class)

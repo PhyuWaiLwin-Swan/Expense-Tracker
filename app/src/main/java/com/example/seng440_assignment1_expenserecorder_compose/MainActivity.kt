@@ -10,12 +10,24 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.example.seng440_assignment1_expenserecorder_compose.individualScreen.HomeScreen
+import com.example.seng440_assignment1_expenserecorder_compose.individualScreen.Screen
 import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.Purple40
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
 
 class MainActivity : ComponentActivity() {
+    val userModel: UserViewModel by viewModels()
+    private lateinit var navController: NavController
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
-    @SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterial3ScaffoldPaddingParameter")
+    @SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterial3ScaffoldPaddingParameter",
+        "StateFlowValueCalledInComposition"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,9 +43,21 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             ) {
-                val userModel: UserViewModel by viewModels()
-                Navigation(userModel)
+                if (userModel.uiState.value.setup) {
+                    navController.navigate(Screen.MainScreen.route) // Navigate to the main screen if setup is completed
+                } else {
+                    navController = Navigation(userModel)
+                }
+                
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (userModel.uiState.value.setup) {
+             // Get the NavController from the Navigation composable
+            navController.navigate(Screen.MainScreen.route) // Navigate to the main screen
         }
     }
 

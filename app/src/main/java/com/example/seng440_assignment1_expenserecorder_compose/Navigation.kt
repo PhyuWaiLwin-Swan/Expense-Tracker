@@ -2,6 +2,7 @@ package com.example.seng440_assignment1_expenserecorder_compose
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,22 +18,15 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserVie
 
 
 @Composable
-fun Navigation(userViewModel: UserViewModel = viewModel())  {
+fun Navigation(userViewModel: UserViewModel = viewModel()) :NavController {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "HomeScreen") {
         composable(route = Screen.HomeScreen.route) { HomeScreen(navHostController = navController,userViewModel) }
-        composable(route = Screen.SetupScreen.route + "/{name}",
-            arguments = listOf(navArgument("name") {
-            type= NavType.StringType
-            defaultValue = "Swan"
-            nullable = true
-        }
-        )
-        ) { entry -> val name = entry.arguments?.getString("name")
-            SetupScreen(name= name?: "swan",navHostController = navController,userViewModel) }
+        composable(route = Screen.SetupScreen.route ){
+            SetupScreen(navHostController = navController,userViewModel) }
         composable(route = Screen.MainScreen.route) { MainScreen(navHostController = navController,userViewModel) }
         composable(route = Screen.AddNew.route) { AddNew(navHostController = navController,userViewModel) }
         composable(route = Screen.LookupDetail.route) { LookupDetail(navHostController = navController,userViewModel) }
-        /*...*/
     }
+    return  navController
 }

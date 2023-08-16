@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.update
 
 
 data class User(val name: String, var email:String, var phone:String,
-                var setupMoney: Int, var setupDate: String, var gender: String, val productList: MutableList<Product> = mutableListOf() ) {
+                var setupMoney: Int, var setupDate: String, var gender: String, val productList: MutableList<Product> = mutableListOf(), var setup:Boolean = false ) {
     override fun toString() : String {
         return ("User name:" + name +"\n" +
                 "User email" + email +"\n" +
@@ -24,7 +24,7 @@ data class User(val name: String, var email:String, var phone:String,
 class UserViewModel: ViewModel() {
     val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
     val today = Calendar.getInstance()
-    private val _uiState = MutableStateFlow(User("User","123@email.com", "123456789",200, formatter.format(today),"Male"))
+    private val _uiState = MutableStateFlow(User("Anonymous","", "",200, formatter.format(today),"Female"))
     val uiState: StateFlow<User> = _uiState.asStateFlow()
 
     fun updateName(newname:String) {
@@ -54,6 +54,18 @@ class UserViewModel: ViewModel() {
             val products = currentState.productList + product
             currentState.copy(productList = products as MutableList<Product>)
         }
+    }
+    fun updateSetup(){
+        _uiState.update { currentState -> currentState.copy(setup = true)}
+    }
+
+    fun getCurrentBalance(): Int {
+        var total = 0
+        for( product in uiState.value.productList) {
+            total += product.cost
+        }
+        var balance = uiState.value.setupMoney - total
+        return balance
     }
 }
 

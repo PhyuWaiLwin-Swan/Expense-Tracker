@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +33,8 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
     var text by remember{
         mutableStateOf("")
     }
+    val mContext = LocalContext.current
+    var textFieldError by remember { mutableStateOf(true) }
 
     Column(verticalArrangement = Arrangement.Center,
     modifier= Modifier
@@ -40,14 +43,29 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
         Text(text= stringResource(R.string.welcome_to_the_expanse_recorder), modifier = Modifier.fillMaxWidth().padding(10.dp), fontSize = 20.sp)
         TextField(
             value = text,
-            onValueChange = { newText -> text = newText },
+            onValueChange = { newText -> text = newText
+                textFieldError = text.isEmpty() },
             label = { Text(stringResource(R.string.your_name)) },
+            isError = (text == ""),
             modifier = Modifier.fillMaxWidth()
+
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            navHostController.navigate(Screen.SetupScreen.withArgs(text))},
+            if( textFieldError) {
+                mToast(mContext, "Please input your name")
+                } else {
+                generateSound()
+                if(text != "") {
+                    userViewModel.updateName(text)
+                }
+                navHostController.navigate(Screen.SetupScreen.route)
+
+            }
+                         },
             modifier = Modifier.align(Alignment.End)
+
+
         ){
             Text(text= stringResource(R.string.to_set_up_screen))
         }

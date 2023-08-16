@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,29 +24,35 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserVie
 
 
 @Composable
-fun SetupScreen( name: String,navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
+fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
 
     val userDataState by userViewModel.uiState.collectAsState()
     var text by remember{
         mutableStateOf("")
     }
+    var textFieldError by remember { mutableStateOf(true) }
+    val mContext = LocalContext.current
     Box(contentAlignment = Alignment.TopStart,
         modifier= Modifier
             .fillMaxSize()
             .padding(horizontal = 50.dp)) {
 
-        Text(text="Hello $name")
+        Text(text="Hello ${userDataState.name}")
     }
     Column(verticalArrangement = Arrangement.Center,
         modifier= Modifier
             .fillMaxSize()
             .padding(horizontal = 50.dp)) {
+
+
         var gender = SimpleRadioButtonComponent()
 
         TextField(
             value = userDataState.email,
-            onValueChange = { newText -> userViewModel.updateEmail(newText) },
+            onValueChange = { newText -> userViewModel.updateEmail(newText)
+                            },
             label = { Text(stringResource(R.string.your_email)) },
+            isError = !userDataState.email.matches(Regex("^[A-Za-z0-9+_.-]+@(.+)\$")),
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -53,11 +60,12 @@ fun SetupScreen( name: String,navHostController: NavHostController,userViewModel
             value = userDataState.phone,
             onValueChange = { newText -> userViewModel.updatePhone(newText)},
             label = { Text(stringResource(R.string.your_phone)) },
-            isError = !userDataState.phone.toString().matches(Regex("^[0-9]*$")),
+            isError = !userDataState.phone.matches(Regex("^[0-9]+$")),
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
+
             value = userDataState.setupMoney.toString(),
             onValueChange = { newText ->
                 val pattern = Regex("^[0-9]*$")
@@ -68,14 +76,24 @@ fun SetupScreen( name: String,navHostController: NavHostController,userViewModel
             isError = !userDataState.setupMoney.toString().matches(Regex("^[0-9]*$")),
             modifier = Modifier.fillMaxWidth()
         )
+        var check = (!userDataState.setupMoney.toString().matches(Regex("^[0-9]*$")) ||
+                !userDataState.phone.toString().matches(Regex("^[0-9]*$")) ||
+                !userDataState.email.matches(Regex("^[A-Za-z0-9+_.-]+@(.+)\$")))
+
 
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
+            if(userDataState.email !="" && userDataState.phone !="" && ! check){
+            generateSound()
             userViewModel.updateDate()
             userViewModel.updateName(text)
             userViewModel.updateGender(gender)
-            navHostController.navigate(Screen.MainScreen.route)},
+            navHostController.navigate(Screen.MainScreen.route)
+            } else {
+                mToast(mContext, "Please input your email and phone")
+            }},
             modifier = Modifier.align(Alignment.End)
+
         ){
             Text(text= stringResource(R.string.setup_user_detail))
         }
@@ -104,8 +122,10 @@ fun SimpleRadioButtonComponent(): String {
                         .padding(horizontal = 8.dp)
                 ) {
                     RadioButton(
+
                         selected = (text == selectedOption),
-                        onClick = { onOptionSelected(text) }
+                        onClick = { generateSound()
+                            onOptionSelected(text) }
                     )
                     Spacer(modifier = Modifier.width(8.dp)) // Add a space between RadioButton and Text
                     Text(

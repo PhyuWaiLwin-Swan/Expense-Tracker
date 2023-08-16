@@ -29,6 +29,7 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserVie
 @Composable
 fun MainScreen(navHostController: NavHostController, userViewModel: UserViewModel = viewModel()) {
     val userDataState by userViewModel.uiState.collectAsState()
+    userViewModel.updateSetup()
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -58,7 +59,10 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     )
                 }
 
-
+                Text(
+                    text = "Name: " + userDataState.name, fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
                 Text(
                     text = stringResource(R.string.email) + userDataState.email, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
@@ -75,9 +79,17 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     text = stringResource(R.string.set_up_date) + userDataState.setupDate, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
+                Text(
+                    text = "Current balance: " + userViewModel.getCurrentBalance(), fontSize = 20.sp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
+
                     onClick = {
+
+                        generateSound()
                         navHostController.navigate(Screen.AddNew.route)
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -87,6 +99,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
+                        generateSound()
                         navHostController.navigate(Screen.LookupDetail.route)
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
