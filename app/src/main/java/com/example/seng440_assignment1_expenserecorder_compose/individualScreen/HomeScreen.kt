@@ -42,7 +42,7 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
     var m = stringResource(R.string.please_input_your_name)
     val userDataState by userViewModel.uiState.collectAsState()
     val mContext = LocalContext.current
-    var textFieldError by remember { mutableStateOf(true) }
+    var textFieldError by remember { mutableStateOf(false) }
 
     Column(verticalArrangement = Arrangement.Center,
     modifier= Modifier
@@ -66,7 +66,7 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
         Button(onClick = {
 
 
-            if( textFieldError) {
+            if( userDataState.name == "") {
 
                 mToast(mContext, m)
                 } else {

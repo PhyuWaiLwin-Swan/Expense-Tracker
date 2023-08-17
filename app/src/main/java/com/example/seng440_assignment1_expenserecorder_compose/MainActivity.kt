@@ -1,11 +1,13 @@
 package com.example.seng440_assignment1_expenserecorder_compose
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
@@ -23,6 +25,7 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserVie
 
 class MainActivity : ComponentActivity() {
     val userModel: UserViewModel by viewModels()
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     @SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterial3ScaffoldPaddingParameter",
         "StateFlowValueCalledInComposition"

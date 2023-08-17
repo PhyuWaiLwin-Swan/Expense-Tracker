@@ -33,10 +33,8 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrate
 @Composable
 fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
 
-        val userDataState by userViewModel.uiState.collectAsState()
-    var text by remember{
-        mutableStateOf("")
-    }
+    val userDataState by userViewModel.uiState.collectAsState()
+
     var textFieldError by remember { mutableStateOf(true) }
     val mContext = LocalContext.current
     var emailPhone = stringResource(R.string.please_input_your_email_and_phone)
@@ -97,7 +95,6 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
             if(userDataState.email !="" && userDataState.phone !="" && ! check){
             generateSound()
             userViewModel.updateDate()
-            userViewModel.updateName(text)
             userViewModel.updateGender(gender)
             navHostController.navigate(Screen.MainScreen.route)
             } else {
