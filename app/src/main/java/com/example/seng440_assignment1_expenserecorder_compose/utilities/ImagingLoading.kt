@@ -49,20 +49,9 @@ fun ImageResourceDemo(gender: String) {
         "Utilities" to R.drawable.utilities,
         "HealthCare" to R.drawable.healthcare,
         "Insurance" to R.drawable.insurance,
-        "Education" to R.drawable.education
-
-
-
-
-//        stringResource(id =R.string.housing) to R.drawable.housing,
-//        stringResource(id =R.string.food) to R.drawable.food,
-//        stringResource(id =R.string.transport) to R.drawable.transport,
-//        stringResource(id =R.string.utilities) to R.drawable.utilities,
-//        stringResource(id =R.string.healthcare) to R.drawable.healthcare,
-//        stringResource(id =R.string.insurance) to R.drawable.insurance,
-//        stringResource(id =R.string.education) to R.drawable.education,
-//        stringResource(id =R.string.clothing) to R.drawable.clothing
-    )
+        "Education" to R.drawable.education,
+        "Clothing" to R.drawable.clothing
+   )
     val rainbowColors = listOf(
         Color.Red, Color.Yellow,
         Color.Green, Color.Blue
