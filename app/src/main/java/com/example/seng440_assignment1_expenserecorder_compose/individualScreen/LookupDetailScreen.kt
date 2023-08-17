@@ -71,17 +71,15 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
         ) {
         Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp, bottom = 40.dp)) {
 
-            Box(modifier = Modifier
-                .fillMaxWidth()
+            Row(modifier = Modifier
+                .fillMaxWidth().align(Alignment.Start)
             ) {
-                Text(text = stringResource(R.string.expense_list), fontSize = 30.sp, modifier = Modifier
-                    .padding(top = 8.dp)
-                    .align(
-                        Alignment.CenterStart
-                    ))
+                Text(text = stringResource(R.string.expense_list), fontSize = 20.sp, modifier = Modifier
+                    .padding(end = 5.dp)
+                    )
                 Button(modifier = Modifier
-                    .padding(top = 8.dp)
-                    .align(Alignment.CenterEnd),onClick = {
+                    .padding(end = 5.dp)
+                    ,onClick = {
                     generateSound()
                     val intent= Intent(Intent.ACTION_SEND).apply {
                         type="text/plain"
@@ -96,6 +94,10 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
 
                 }) {
                     Text(text= stringResource(R.string.share))
+                }
+                Button(onClick = { navHostController.navigate(Screen.MainScreen.route) },
+                    modifier = Modifier.padding(end = 5.dp)) {
+                    Text(text = stringResource(R.string.to_main_screen))
                 }
             }
             val user by userViewModel.uiState.collectAsState()
@@ -144,10 +146,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
             else {
                 Text(stringResource(R.string.no_saved_expense), fontSize = 20.sp)
             }
-            Button(onClick = { navHostController.navigate(Screen.MainScreen.route) },
-                modifier = Modifier.padding(10.dp)) {
-                Text(text = stringResource(R.string.to_main_screen))
-            }
+
         }
     }
 

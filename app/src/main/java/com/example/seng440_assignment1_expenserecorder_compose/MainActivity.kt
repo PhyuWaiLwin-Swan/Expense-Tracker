@@ -34,16 +34,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = getString(R.string.expense_tracker),
-                                color = Purple40
-                            )
-                        }
-                    )
-                }
             ) {
                 Navigation(userModel)
 
