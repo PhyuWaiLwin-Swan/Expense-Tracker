@@ -144,8 +144,13 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
             else {
                 Text(stringResource(R.string.no_saved_expense), fontSize = 20.sp)
             }
+            Button(onClick = { navHostController.navigate(Screen.MainScreen.route) },
+                modifier = Modifier.padding(10.dp)) {
+                Text(text = stringResource(R.string.to_main_screen))
+            }
         }
     }
+
     vibrateOnLoad()
 }
 @Composable

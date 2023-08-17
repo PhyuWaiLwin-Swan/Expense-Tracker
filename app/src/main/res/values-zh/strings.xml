@@ -39,6 +39,6 @@
     <string name="expense_detail">费用明细</string>
     <string name="share">分享</string>
     <string name="expense_list">费用清单:</string>
-    <string name="records_from_expense_tracker">
-费用记录器的记录</string>
+    <string name="records_from_expense_tracker">费用记录器的记录</string>
+    <string name="to_main_screen">到主屏幕</string>
 </resources>

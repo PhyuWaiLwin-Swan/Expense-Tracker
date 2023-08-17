@@ -118,12 +118,17 @@ fun AddNew(navHostController: NavHostController, userViewModel: UserViewModel = 
                             navHostController.navigate(Screen.MainScreen.route)
                         }
                     },
-                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 200.dp)
+                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 10.dp)
                 ) {
                     Text(text = stringResource(R.string.add))
                 }
+                Button(onClick = { navHostController.navigate(Screen.MainScreen.route) },
+                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom=180.dp)) {
+                    Text(text = stringResource(R.string.to_main_screen))
+                }
+                vibrateOnLoad()
+
             }
-            vibrateOnLoad()
         }
     }
 }
