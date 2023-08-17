@@ -1,7 +1,11 @@
 package com.example.seng440_assignment1_expenserecorder_compose.individualScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -22,8 +26,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.seng440_assignment1_expenserecorder_compose.R
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrateOnLoad
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
 
@@ -33,6 +39,7 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
     }
     var textFieldError by remember { mutableStateOf(true) }
     val mContext = LocalContext.current
+    var emailPhone = stringResource(R.string.please_input_your_email_and_phone)
     Box(contentAlignment = Alignment.TopStart,
         modifier= Modifier
             .fillMaxSize()
@@ -43,10 +50,12 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
     Column(verticalArrangement = Arrangement.Center,
         modifier= Modifier
             .fillMaxSize()
-            .padding(horizontal = 50.dp)) {
+            .padding(horizontal = 50.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
 
 
-        Text(text= stringResource(id = R.string.name) + userDataState.name, fontSize = 35.sp, modifier = Modifier.padding(10.dp))
+        Text(text= stringResource(id = R.string.name) + userDataState.name, fontSize = 35.sp, modifier = Modifier.padding(10.dp, top = 100.dp))
         var gender = SimpleRadioButtonComponent()
 
 
@@ -93,14 +102,16 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
             userViewModel.updateGender(gender)
             navHostController.navigate(Screen.MainScreen.route)
             } else {
-                mToast(mContext, "Please input your email and phone")
+
+                mToast(mContext, emailPhone)
             }},
-            modifier = Modifier.align(Alignment.End)
+            modifier = Modifier.align(Alignment.End).padding(bottom = 200.dp)
 
         ){
             Text(text= stringResource(R.string.setup_user_detail))
         }
     }
+    vibrateOnLoad()
 }
 
 

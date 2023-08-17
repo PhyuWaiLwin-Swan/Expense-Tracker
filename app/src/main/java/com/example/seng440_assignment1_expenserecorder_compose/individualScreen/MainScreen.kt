@@ -1,5 +1,7 @@
 package com.example.seng440_assignment1_expenserecorder_compose.individualScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +27,9 @@ import androidx.navigation.NavHostController
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.ImageResourceDemo
 import com.example.seng440_assignment1_expenserecorder_compose.R
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrateOnLoad
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(navHostController: NavHostController, userViewModel: UserViewModel = viewModel()) {
     val userDataState by userViewModel.uiState.collectAsState()
@@ -51,6 +55,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    println(userDataState.gender)
                     ImageResourceDemo(userDataState.gender)
                     Text(
                         text = userDataState.name,
@@ -58,11 +63,9 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                         modifier = Modifier.padding(top = 10.dp)
                     )
                 }
-
-                Text(
-                    text = stringResource(R.string.name) + userDataState.name, fontSize = 20.sp,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
+                println(userDataState.name)
+                Text(text= stringResource(id = R.string.name) + userDataState.name,
+                    fontSize = 35.sp, modifier = Modifier.padding(10.dp))
                 Text(
                     text = stringResource(R.string.email) + userDataState.email, fontSize = 20.sp,
                     modifier = Modifier.padding(top = 10.dp)
@@ -107,6 +110,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     Text(text = stringResource(R.string.look_up_detail))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
+                vibrateOnLoad()
             }
         }
     }

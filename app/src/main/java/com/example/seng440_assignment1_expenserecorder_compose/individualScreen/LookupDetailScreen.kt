@@ -1,6 +1,8 @@
 package com.example.seng440_assignment1_expenserecorder_compose.individualScreen
 
 import android.content.Intent
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -11,7 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +44,12 @@ import com.example.seng440_assignment1_expenserecorder_compose.R
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
 import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.Purple40
 import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.Purple80
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.ProductType
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.getMapping
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.typeMapping
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrateOnLoad
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewModel = viewModel()) {
 
@@ -50,6 +59,8 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
     for (i in user.productList.toList()){
         string += i.toString() + "\n"+" "+"\n"
     }
+    var emailMessage = stringResource(R.string.records_from_expense_tracker)
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -58,12 +69,14 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
             .clip(RoundedCornerShape(35.dp)),
 
         ) {
-        Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp)) {
+        Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp).verticalScroll(
+            rememberScrollState()
+        )) {
 
             Box(modifier = Modifier
                 .fillMaxWidth()
             ) {
-                Text(text = "Expense List:", fontSize = 30.sp, modifier = Modifier
+                Text(text = stringResource(R.string.expense_list), fontSize = 30.sp, modifier = Modifier
                     .padding(top = 8.dp)
                     .align(
                         Alignment.CenterStart
@@ -74,8 +87,8 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                     generateSound()
                     val intent= Intent(Intent.ACTION_SEND).apply {
                         type="text/plain"
-                        putExtra(Intent.EXTRA_EMAIL, arrayListOf(user.email))
-                        putExtra(Intent.EXTRA_SUBJECT, "Records from expense tracker")
+                        putExtra(Intent.EXTRA_EMAIL, user.email)
+                        putExtra(Intent.EXTRA_SUBJECT,emailMessage )
                         putExtra(Intent.EXTRA_TEXT, string)
                     }
 
@@ -84,7 +97,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                     }
 
                 }) {
-                    Text(text= "Share")
+                    Text(text= stringResource(R.string.share))
                 }
             }
             val user by userViewModel.uiState.collectAsState()
@@ -106,7 +119,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                             Text(
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold,
-                                text = "Expense Detail"
+                                text = stringResource(R.string.expense_detail)
                             )
                         },
                         text = {
@@ -114,7 +127,8 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                                 ImageResourceDemo(selectedProduct.type.toString())
                                 Text(text = stringResource(R.string.product_name) + selectedProduct.name)
                                 Text(text = stringResource(R.string.item_cost) + selectedProduct.cost)
-                                Text(text = "Item type: " + selectedProduct.type)
+                                Text(text = stringResource(R.string.item_type) + stringResource(id = getMapping(selectedProduct.type?: ProductType.Food))
+                                )
                             }
                         },
                         confirmButton = {
@@ -130,10 +144,11 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
             }
 
             else {
-                Text("No saved expense", fontSize = 20.sp)
+                Text(stringResource(R.string.no_saved_expense), fontSize = 20.sp)
             }
         }
     }
+    vibrateOnLoad()
 }
 @Composable
 fun ProductList(products: List<Product>, onProductClick: (Product) -> Unit) {

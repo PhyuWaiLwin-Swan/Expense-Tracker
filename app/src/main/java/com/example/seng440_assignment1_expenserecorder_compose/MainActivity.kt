@@ -43,21 +43,10 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             ) {
-                if (userModel.uiState.value.setup) {
-                    navController.navigate(Screen.MainScreen.route) // Navigate to the main screen if setup is completed
-                } else {
                     navController = Navigation(userModel)
-                }
+
                 
             }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (userModel.uiState.value.setup) {
-             // Get the NavController from the Navigation composable
-            navController.navigate(Screen.MainScreen.route) // Navigate to the main screen
         }
     }
 

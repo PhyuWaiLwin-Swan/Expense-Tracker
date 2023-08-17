@@ -1,7 +1,10 @@
 package com.example.seng440_assignment1_expenserecorder_compose.individualScreen
 
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,12 +38,17 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.Product
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.ProductViewModel
 import com.example.seng440_assignment1_expenserecorder_compose.R
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.typeMapping
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrateOnLoad
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AddNew(navHostController: NavHostController, userViewModel: UserViewModel = viewModel()) {
     val product: ProductViewModel = viewModel()
     val productDetail by product.uiState.collectAsState()
     val mContext = LocalContext.current
+    var pNameAndCost =  stringResource(R.string.please_input_product_name_and_cost)
+    var succAdd = stringResource(R.string.successfully_added)
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -65,7 +73,7 @@ fun AddNew(navHostController: NavHostController, userViewModel: UserViewModel = 
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 20.dp)
+                            .padding(bottom = 20.dp, top = 150.dp)
                     ) {
                         ImageResourceDemo(productDetail.type.toString())
                     }
@@ -101,19 +109,21 @@ fun AddNew(navHostController: NavHostController, userViewModel: UserViewModel = 
                 Button(
                     onClick = {
                         if (productDetail.name == "" || productDetail.cost == 0) {
-                            mToast(mContext, "Please input Product name and cost")
+
+                            mToast(mContext,pNameAndCost)
                         } else {
                             generateSound()
                             userViewModel.updateProduct(product = product._uiState.value)
-                            mToast(mContext, "Successfully Added")
+                            mToast(mContext, succAdd)
                             navHostController.navigate(Screen.MainScreen.route)
                         }
                     },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 200.dp)
                 ) {
                     Text(text = stringResource(R.string.add))
                 }
             }
+            vibrateOnLoad()
         }
     }
 }
@@ -124,8 +134,8 @@ fun mToast(context: Context, string: String){
 @Composable
 fun MyExposedDropdownMenuBox(productViewModel: ProductViewModel = viewModel() ) {
 
-
-    val categories = ProductType::class.java.enumConstants.map { it.name }
+    val categories = typeMapping()
+    val categoryToProductTypeMap = categories.zip(ProductType.values()).toMap()
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(categories[0]) }
 
@@ -154,10 +164,11 @@ fun MyExposedDropdownMenuBox(productViewModel: ProductViewModel = viewModel() ) 
                 onDismissRequest = { expanded = false }
             ) {
                 categories.forEach { item ->
+
                     DropdownMenuItem(
                         text = { Text(text = item) },
                         onClick = {
-                            productViewModel.updateType(item)
+                            categoryToProductTypeMap[item]?.let { productViewModel.updateType(it) }
                             selectedText = item
                             expanded = false
                         }

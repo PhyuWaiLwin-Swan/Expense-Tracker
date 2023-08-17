@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.update
 
 data class Product(
     var name: String,
-    var type: ProductType,
+    var type: ProductType?,
     var cost: Int,
     var date: String
 ) {
     override fun toString() : String {
-        val type: ProductType = this.type
+        val type: ProductType? =  this.type
         return ("Product Name:" + name +"\n" +
-                "Product Type:" + type.name +"\n" +
+                "Product Type:" + type.toString() +"\n" +
                 "Cost: " + cost +"\n" +
                 "Purchase Date" + date
                 )
@@ -36,8 +36,8 @@ class ProductViewModel: ViewModel(){
     fun updateCost(newCost:Int) {
         _uiState.update { currentState -> currentState.copy(cost = newCost) }
     }
-    fun updateType(newType:String) {
-        _uiState.update { currentState -> currentState.copy(type = ProductType.valueOf(newType)) }
+    fun updateType(newType:ProductType) {
+        _uiState.update { currentState -> currentState.copy(type = newType) }
     }
     fun updateDate() {
         val formatter = SimpleDateFormat("d MMMM HH:mm:ss")

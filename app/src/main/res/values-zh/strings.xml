@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Seng440_assignment1_ExpenseRecorder_compose</string>
-    <string name="product_name">产品名称</string>
+    <string name="product_name">产品名称:</string>
     <string name="your_email">你的邮件：</string>
     <string name="your_name">你的名字：</string>
     <string name="set_up_date">设定日期：</string>
@@ -22,4 +22,23 @@
     <string name="female">女性</string>
     <string name="expense_tracker">费用记录仪</string>
     <string name="item_cost">物品成本：</string>
+    <string name="food">食物</string>
+    <string name="transport">运输</string>
+    <string name="healthcare">卫生保健</string>
+    <string name="clothing">衣服</string>
+    <string name="please_input_your_name">请输入您的姓名</string>
+    <string name="successfully_added">添加成功</string>
+    <string name="please_input_your_email_and_phone">请输入您的邮箱和电话</string>
+    <string name="utilities">公用事业</string>
+    <string name="insurance">保险</string>
+    <string name="education">教育</string>
+    <string name="housing">住房</string>
+    <string name="please_input_product_name_and_cost">请输入产品名称及价格</string>
+    <string name="item_type">物品种类: </string>
+    <string name="no_saved_expense">没有开支</string>
+    <string name="expense_detail">费用明细</string>
+    <string name="share">分享</string>
+    <string name="expense_list">费用清单:</string>
+    <string name="records_from_expense_tracker">
+费用记录器的记录</string>
 </resources>

@@ -1,8 +1,13 @@
 package com.example.seng440_assignment1_expenserecorder_compose.utilities
 
+import android.content.Context
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
@@ -23,16 +28,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.seng440_assignment1_expenserecorder_compose.R
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat.getSystemService
+
 
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
 fun ImageResourceDemo(gender: String) {
 
     val selected = mapOf(
-        "Male" to R.drawable.img,
-        "Female" to R.drawable.img_1,
+        stringResource(id = R.string.male) to R.drawable.img,
+        stringResource(id = R.string.female) to R.drawable.img_1,
         "Housing" to R.drawable.housing,
         "Food" to R.drawable.food,
         "Transport" to R.drawable.transport,
@@ -40,6 +50,18 @@ fun ImageResourceDemo(gender: String) {
         "HealthCare" to R.drawable.healthcare,
         "Insurance" to R.drawable.insurance,
         "Education" to R.drawable.education
+
+
+
+
+//        stringResource(id =R.string.housing) to R.drawable.housing,
+//        stringResource(id =R.string.food) to R.drawable.food,
+//        stringResource(id =R.string.transport) to R.drawable.transport,
+//        stringResource(id =R.string.utilities) to R.drawable.utilities,
+//        stringResource(id =R.string.healthcare) to R.drawable.healthcare,
+//        stringResource(id =R.string.insurance) to R.drawable.insurance,
+//        stringResource(id =R.string.education) to R.drawable.education,
+//        stringResource(id =R.string.clothing) to R.drawable.clothing
     )
     val rainbowColors = listOf(
         Color.Red, Color.Yellow,
@@ -56,44 +78,29 @@ fun ImageResourceDemo(gender: String) {
     val image: Painter = painterResource(id = selected[gender]!!)
     Image(painter = image,
         contentDescription = "",
-        modifier = Modifier.drawBehind {
-        rotate(rotAni.value){
-            drawCircle(brush = gradientBrush, style= Stroke(width = 4.dp.toPx()))
-        }
-    }
-        .size(120.dp)
-        .clip(CircleShape)
-        .border(2.dp, Color.Gray, shape = CircleShape))
+        modifier = Modifier
+            .drawBehind {
+                rotate(rotAni.value) {
+                    drawCircle(brush = gradientBrush, style = Stroke(width = 4.dp.toPx()))
+                }
+            }
+            .size(120.dp)
+            .clip(CircleShape)
+            .border(2.dp, Color.Gray, shape = CircleShape))
 
+
+}
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun vibrateOnLoad() {
+    val context = LocalContext.current
+    val vibrator = getSystemService(context, Vibrator::class.java)
+
+    if (vibrator != null && vibrator.hasVibrator()) {
+
+            vibrator.vibrate(VibrationEffect.createOneShot(100L, VibrationEffect.DEFAULT_AMPLITUDE))
+        }
 
 }
 
 
-//fun pickImage() {
-//    val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-//        // Callback is invoked after the user selects a media item or closes the
-//        // photo picker.
-//        if (uri != null) {
-//            Log.d("PhotoPicker", "Selected URI: $uri")
-//        } else {
-//            Log.d("PhotoPicker", "No media selected")
-//        }
-//    }
-//
-//// Include only one of the following calls to launch(), depending on the types
-//// of media that you want to let the user choose from.
-//
-//// Launch the photo picker and let the user choose images and videos.
-//    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
-//
-//// Launch the photo picker and let the user choose only images.
-//    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-//
-//// Launch the photo picker and let the user choose only videos.
-//    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
-//
-//// Launch the photo picker and let the user choose only images/videos of a
-//// specific MIME type, such as GIFs.
-//    val mimeType = "image/gif"
-//    pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType(mimeType)))
-//}

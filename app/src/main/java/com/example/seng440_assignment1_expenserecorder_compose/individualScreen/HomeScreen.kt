@@ -1,5 +1,8 @@
 package com.example.seng440_assignment1_expenserecorder_compose.individualScreen
 
+import android.os.Build
+import android.os.Vibrator
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Alignment
@@ -8,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,14 +27,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.seng440_assignment1_expenserecorder_compose.R
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrateOnLoad
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
+    var m = stringResource(R.string.please_input_your_name)
+
     var text by remember{
         mutableStateOf("")
     }
@@ -39,8 +49,12 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
     Column(verticalArrangement = Arrangement.Center,
     modifier= Modifier
         .fillMaxSize()
-        .padding(horizontal = 50.dp)) {
-        Text(text= stringResource(R.string.welcome_to_the_expanse_recorder), modifier = Modifier.fillMaxWidth().padding(10.dp), fontSize = 20.sp)
+        .padding(horizontal = 50.dp)
+        .verticalScroll(rememberScrollState()))
+    {
+        Text(text= stringResource(R.string.welcome_to_the_expanse_recorder), modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp), fontSize = 20.sp)
         TextField(
             value = text,
             onValueChange = { newText -> text = newText
@@ -52,8 +66,11 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
+
+
             if( textFieldError) {
-                mToast(mContext, "Please input your name")
+
+                mToast(mContext, m)
                 } else {
                 generateSound()
                 if(text != "") {
@@ -62,14 +79,19 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
                 navHostController.navigate(Screen.SetupScreen.route)
 
             }
+
                          },
             modifier = Modifier.align(Alignment.End)
 
 
         ){
             Text(text= stringResource(R.string.to_set_up_screen))
+
         }
     }
+
+    vibrateOnLoad()
+
 
 
 }
