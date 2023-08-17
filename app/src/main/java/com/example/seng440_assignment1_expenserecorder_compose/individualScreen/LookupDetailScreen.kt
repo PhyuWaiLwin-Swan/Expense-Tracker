@@ -42,6 +42,8 @@ import com.example.seng440_assignment1_expenserecorder_compose.R
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
 import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.Purple40
 import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.Purple80
+import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.one
+import com.example.seng440_assignment1_expenserecorder_compose.ui.theme.two
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.ProductType
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.getMapping
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.typeMapping
@@ -63,11 +65,11 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
-            .background(color = Purple80)
-            .clip(RoundedCornerShape(35.dp)),
+            .background(color = two)
+            .clip(RoundedCornerShape(50.dp)),
 
         ) {
-        Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp)) {
+        Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp, bottom = 40.dp)) {
 
             Box(modifier = Modifier
                 .fillMaxWidth()
@@ -83,7 +85,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
                     generateSound()
                     val intent= Intent(Intent.ACTION_SEND).apply {
                         type="text/plain"
-                        putExtra(Intent.EXTRA_EMAIL, user.email)
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(user.email))
                         putExtra(Intent.EXTRA_SUBJECT,emailMessage )
                         putExtra(Intent.EXTRA_TEXT, string)
                     }
@@ -155,9 +157,9 @@ fun ProductList(products: List<Product>, onProductClick: (Product) -> Unit) {
 
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(30.dp))
                 .padding(4.dp)
-                .background(color = Purple40)
+                .background(color = one)
                 .clickable {
                     onProductClick(product)
                 },) {

@@ -52,4 +52,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onStart() {
+        super.onStart()
+        setContent { if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Navigation(userModel)
+        }
+        }
+    }
+
 }

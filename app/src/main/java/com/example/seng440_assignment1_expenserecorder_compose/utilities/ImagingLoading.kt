@@ -39,7 +39,6 @@ import androidx.core.content.ContextCompat.getSystemService
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
 fun ImageResourceDemo(gender: String) {
-
     val selected = mapOf(
         stringResource(id = R.string.male) to R.drawable.img,
         stringResource(id = R.string.female) to R.drawable.img_1,

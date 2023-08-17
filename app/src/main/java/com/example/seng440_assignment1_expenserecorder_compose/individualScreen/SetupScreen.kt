@@ -42,8 +42,6 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
         modifier= Modifier
             .fillMaxSize()
             .padding(horizontal = 50.dp)) {
-
-        Text(text="Hello ${userDataState.name}")
     }
     Column(verticalArrangement = Arrangement.Center,
         modifier= Modifier

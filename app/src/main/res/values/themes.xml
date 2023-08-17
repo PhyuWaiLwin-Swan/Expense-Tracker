@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Seng440_assignment1_ExpenseRecorder_compose" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Seng440_assignment1_ExpenseRecorder_compose" parent="android:Theme.Material.Light.LightStatusBar" >
+        <item name="android:colorPrimary">@color/two</item>
+        <item name="android:colorPrimaryDark">@color/one</item>
+        <item name="android:colorAccent">@color/three</item>
+        <item name="android:backgroundTint">@color/three</item>
+        <item name="android:textColor">@color/two</item>
+        <item name="android:buttonTint">@color/two</item>
+        <item name="android:colorButtonNormal">@color/two</item>
+        <item name="android:buttonBarButtonStyle">@color/two</item>
+    </style>
+
 </resources>
+
