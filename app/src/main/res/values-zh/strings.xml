@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Seng440_assignment1_ExpenseRecorder_compose</string>
+    <string name="app_name">费用记录器</string>
     <string name="product_name">产品名称:</string>
     <string name="your_email">你的邮件：</string>
     <string name="your_name">你的名字：</string>

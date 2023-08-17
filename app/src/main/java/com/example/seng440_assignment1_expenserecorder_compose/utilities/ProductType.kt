@@ -40,4 +40,15 @@ fun getMapping(productType: ProductType) : Int {
 
 }
 
+fun getGenerImage(gender:String) : String{
+    return when(gender) {
+        "Male"-> "Male"
+        "Female" -> "Female"
+        "男性"-> "Male"
+        "女性" -> "Female"
+
+        else -> {"Female"}
+    }
+}
+
 

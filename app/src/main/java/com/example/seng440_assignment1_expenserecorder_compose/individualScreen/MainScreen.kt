@@ -29,6 +29,7 @@ import androidx.navigation.NavHostController
 import com.example.seng440_assignment1_expenserecorder_compose.R
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.ImageResourceDemo
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
+import com.example.seng440_assignment1_expenserecorder_compose.utilities.getGenerImage
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrateOnLoad
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -53,7 +54,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                         .align(Alignment.CenterHorizontally)
                         .padding(top = 20.dp, bottom = 20.dp)
                 ) {
-                    ImageResourceDemo(userDataState.gender)
+                    ImageResourceDemo(getGenerImage(userDataState.gender))
 
                 }
                 Text(
@@ -127,7 +128,7 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                             .align(Alignment.CenterHorizontally)
                             .padding(bottom = 10.dp)
                     ) {
-                        ImageResourceDemo(userDataState.gender)
+                        ImageResourceDemo(getGenerImage(userDataState.gender))
                     }
                     Text(
                         text = stringResource(R.string.name) + userDataState.name,

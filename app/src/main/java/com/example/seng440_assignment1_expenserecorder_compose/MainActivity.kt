@@ -39,9 +39,9 @@ class MainActivity : ComponentActivity() {
                         title = {
                             Text(
                                 text = getString(R.string.expense_tracker),
-                                color = Purple40 // Set the text color here
+                                color = Purple40
                             )
-                        } // Set the TopAppBar background color here
+                        }
                     )
                 }
             ) {
@@ -49,15 +49,6 @@ class MainActivity : ComponentActivity() {
 
                 
             }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onStart() {
-        super.onStart()
-        setContent { if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Navigation(userModel)
-        }
         }
     }
 

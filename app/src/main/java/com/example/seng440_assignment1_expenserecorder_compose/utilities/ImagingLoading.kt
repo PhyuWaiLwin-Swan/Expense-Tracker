@@ -40,8 +40,8 @@ import androidx.core.content.ContextCompat.getSystemService
 @Composable
 fun ImageResourceDemo(gender: String) {
     val selected = mapOf(
-        stringResource(id = R.string.male) to R.drawable.img,
-        stringResource(id = R.string.female) to R.drawable.img_1,
+        "Male" to R.drawable.img,
+        "Female" to R.drawable.img_1,
         "Housing" to R.drawable.housing,
         "Food" to R.drawable.food,
         "Transport" to R.drawable.transport,
