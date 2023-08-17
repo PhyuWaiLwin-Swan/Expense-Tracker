@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -69,9 +67,7 @@ fun LookupDetail(navHostController: NavHostController, userViewModel: UserViewMo
             .clip(RoundedCornerShape(35.dp)),
 
         ) {
-        Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp).verticalScroll(
-            rememberScrollState()
-        )) {
+        Column(modifier= Modifier.padding(20.dp, top = 40.dp, end = 20.dp)) {
 
             Box(modifier = Modifier
                 .fillMaxWidth()
@@ -155,36 +151,6 @@ fun ProductList(products: List<Product>, onProductClick: (Product) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     LazyColumn {
         items(products) { product ->
-
-
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(2.dp)
-//            ) {
-//                ImageResourceDemo(gender = product.type.toString())
-//                Text(
-//                    modifier = Modifier
-//                        .align(Alignment.CenterStart)
-//                        .padding(all = 2.dp),
-//                    style = MaterialTheme.typography.bodyLarge,
-//                    fontSize = 25.sp,
-//                    text = product.name
-//                )
-//                Text(
-//                    modifier = Modifier
-//                        .align(Alignment.CenterEnd)
-//                        .padding(all = 2.dp),
-//                    style = MaterialTheme.typography.bodyLarge,
-//                    fontSize = 25.sp,
-//                    text = "$" + product.cost.toString()
-//                )
-//                Spacer(modifier = Modifier.weight(1f))
-//                ItemButton(
-//                    expanded = expanded,
-//                    onClick = { /*TODO*/ }
-//                )
-//            }
 
 
             Box(modifier = Modifier

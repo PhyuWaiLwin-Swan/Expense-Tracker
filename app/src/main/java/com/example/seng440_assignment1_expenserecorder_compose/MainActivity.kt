@@ -23,7 +23,6 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserVie
 
 class MainActivity : ComponentActivity() {
     val userModel: UserViewModel by viewModels()
-    private lateinit var navController: NavController
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
     @SuppressLint("CoroutineCreationDuringComposition", "UnusedMaterial3ScaffoldPaddingParameter",
         "StateFlowValueCalledInComposition"
@@ -43,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             ) {
-                    navController = Navigation(userModel)
+                Navigation(userModel)
 
                 
             }

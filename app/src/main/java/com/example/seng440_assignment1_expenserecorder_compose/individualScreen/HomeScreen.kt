@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,10 +40,7 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrate
 @Composable
 fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
     var m = stringResource(R.string.please_input_your_name)
-
-    var text by remember{
-        mutableStateOf("")
-    }
+    val userDataState by userViewModel.uiState.collectAsState()
     val mContext = LocalContext.current
     var textFieldError by remember { mutableStateOf(true) }
 
@@ -56,11 +54,11 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
             .fillMaxWidth()
             .padding(10.dp), fontSize = 20.sp)
         TextField(
-            value = text,
-            onValueChange = { newText -> text = newText
-                textFieldError = text.isEmpty() },
+            value = userDataState.name,
+            onValueChange = { newText -> userViewModel.updateName(newText)
+                textFieldError = userDataState.name.isEmpty() },
             label = { Text(stringResource(R.string.your_name)) },
-            isError = (text == ""),
+            isError = (userDataState.name == ""),
             modifier = Modifier.fillMaxWidth()
 
         )
@@ -72,10 +70,9 @@ fun HomeScreen(navHostController: NavHostController,userViewModel: UserViewModel
 
                 mToast(mContext, m)
                 } else {
+
+
                 generateSound()
-                if(text != "") {
-                    userViewModel.updateName(text)
-                }
                 navHostController.navigate(Screen.SetupScreen.route)
 
             }

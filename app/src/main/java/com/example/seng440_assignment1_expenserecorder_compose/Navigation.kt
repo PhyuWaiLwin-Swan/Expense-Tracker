@@ -1,5 +1,7 @@
 package com.example.seng440_assignment1_expenserecorder_compose
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -17,16 +19,15 @@ import com.example.seng440_assignment1_expenserecorder_compose.individualScreen.
 import com.example.seng440_assignment1_expenserecorder_compose.utilities.UserViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation(userViewModel: UserViewModel = viewModel()) :NavController {
+fun Navigation(userViewModel: UserViewModel = viewModel()) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "HomeScreen") {
         composable(route = Screen.HomeScreen.route) { HomeScreen(navHostController = navController,userViewModel) }
-        composable(route = Screen.SetupScreen.route ){
-            SetupScreen(navHostController = navController,userViewModel) }
+        composable(route = Screen.SetupScreen.route ){ SetupScreen(navHostController = navController,userViewModel) }
         composable(route = Screen.MainScreen.route) { MainScreen(navHostController = navController,userViewModel) }
         composable(route = Screen.AddNew.route) { AddNew(navHostController = navController,userViewModel) }
         composable(route = Screen.LookupDetail.route) { LookupDetail(navHostController = navController,userViewModel) }
     }
-    return  navController
 }

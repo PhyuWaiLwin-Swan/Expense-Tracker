@@ -55,15 +55,9 @@ fun MainScreen(navHostController: NavHostController, userViewModel: UserViewMode
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    println(userDataState.gender)
                     ImageResourceDemo(userDataState.gender)
-                    Text(
-                        text = userDataState.name,
-                        fontSize = 30.sp,
-                        modifier = Modifier.padding(top = 10.dp)
-                    )
+
                 }
-                println(userDataState.name)
                 Text(text= stringResource(id = R.string.name) + userDataState.name,
                     fontSize = 35.sp, modifier = Modifier.padding(10.dp))
                 Text(

@@ -33,7 +33,7 @@ import com.example.seng440_assignment1_expenserecorder_compose.utilities.vibrate
 @Composable
 fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewModel = viewModel()) {
 
-    val userDataState by userViewModel.uiState.collectAsState()
+        val userDataState by userViewModel.uiState.collectAsState()
     var text by remember{
         mutableStateOf("")
     }
@@ -53,7 +53,6 @@ fun SetupScreen(navHostController: NavHostController,userViewModel: UserViewMode
             .padding(horizontal = 50.dp)
             .verticalScroll(rememberScrollState())
     ) {
-
 
         Text(text= stringResource(id = R.string.name) + userDataState.name, fontSize = 35.sp, modifier = Modifier.padding(10.dp, top = 100.dp))
         var gender = SimpleRadioButtonComponent()

@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.update
 
 
 
-data class User(val name: String, var email:String, var phone:String,
-                var setupMoney: Int, var setupDate: String, var gender: String, val productList: MutableList<Product> = mutableListOf(), var setup:Boolean = false ) {
+data class User(var name: String, var email:String, var phone:String,
+                var setupMoney: Int, var setupDate: String, var gender: String, var productList: MutableList<Product> = mutableListOf(), var setup:Boolean = false ) {
     override fun toString() : String {
         return ("User name:" + name +"\n" +
                 "User email" + email +"\n" +
@@ -24,11 +24,11 @@ data class User(val name: String, var email:String, var phone:String,
 class UserViewModel: ViewModel() {
     val formatter = SimpleDateFormat("d MMMM HH:mm:ss")
     val today = Calendar.getInstance()
-    private val _uiState = MutableStateFlow(User("Anonymous","", "",200, formatter.format(today),"Female"))
+    private val _uiState = MutableStateFlow(User("","", "",200, formatter.format(today),"Female"))
     val uiState: StateFlow<User> = _uiState.asStateFlow()
 
-    fun updateName(newname:String) {
-        _uiState.update { currentState -> currentState.copy(name = newname) }
+    fun updateName(newName:String) {
+        _uiState.update { currentState -> currentState.copy(name = newName) }
     }
     fun updateEmail(newEmail:String) {
         _uiState.update { currentState -> currentState.copy(email = newEmail) }
